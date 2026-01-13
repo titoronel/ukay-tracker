@@ -3,9 +3,10 @@ import { sql } from '@vercel/postgres';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const bundle = await request.json();
     
     const { rows } = await sql`
@@ -15,7 +16,7 @@ export async function PUT(
         category = ${bundle.category},
         total_cost = ${bundle.totalCost},
         total_pieces = ${bundle.totalPieces}
-      WHERE id = ${params.id}
+      WHERE id = ${id}
       RETURNING *
     `;
     
@@ -32,11 +33,12 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const { rows } = await sql`
-      DELETE FROM bundles WHERE id = ${params.id} RETURNING *
+      DELETE FROM bundles WHERE id = ${id} RETURNING *
     `;
     
     if (rows.length === 0) {

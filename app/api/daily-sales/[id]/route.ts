@@ -3,21 +3,22 @@ import { sql } from '@vercel/postgres';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await sql.query('BEGIN');
     
     await sql`
       UPDATE items
       SET status = 'Available', sold_date = NULL
       WHERE id IN (
-        SELECT item_id FROM daily_sales_items WHERE daily_sale_id = ${params.id}
+        SELECT item_id FROM daily_sales_items WHERE daily_sale_id = ${id}
       )
     `;
     
     const { rows } = await sql`
-      DELETE FROM daily_sales WHERE id = ${params.id} RETURNING *
+      DELETE FROM daily_sales WHERE id = ${id} RETURNING *
     `;
     
     await sql.query('COMMIT');
