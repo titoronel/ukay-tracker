@@ -49,14 +49,14 @@ export const ItemForm = ({
 
   return (
     <div className="relative animate-fadeIn">
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-3xl blur-2xl" />
-      <div className="relative bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/50">
-        <h2 className="text-3xl font-black mb-6 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-2xl sm:rounded-3xl blur-2xl" />
+      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 border border-white/50">
+        <h2 className="text-xl sm:text-3xl font-black mb-4 sm:mb-6 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
           {item ? "✏️ Edit Item" : "✨ Add New Item"}
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
               Bundle *
             </label>
             <select
@@ -64,7 +64,7 @@ export const ItemForm = ({
               onChange={(e) =>
                 setFormData({ ...formData, bundleId: e.target.value })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
               required
             >
               <option value="">Select a bundle</option>
@@ -77,7 +77,7 @@ export const ItemForm = ({
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
               Item Name *
             </label>
             <input
@@ -86,15 +86,15 @@ export const ItemForm = ({
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
               placeholder="e.g., Denim Jacket, Black Hoodie"
               required
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
                 Selling Price (₱) *
               </label>
               <input
@@ -106,7 +106,7 @@ export const ItemForm = ({
                     sellingPrice: parseFloat(e.target.value) || 0,
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
                 placeholder="e.g., 500"
                 min="0"
                 step="0.01"
@@ -115,7 +115,7 @@ export const ItemForm = ({
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
                 Size *
               </label>
               <input
@@ -124,16 +124,16 @@ export const ItemForm = ({
                 onChange={(e) =>
                   setFormData({ ...formData, size: e.target.value })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
                 placeholder="e.g., L, XL, 36"
                 required
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
                 Condition *
               </label>
               <select
@@ -144,7 +144,7 @@ export const ItemForm = ({
                     condition: e.target.value as Item["condition"],
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
                 required
               >
                 <option value="As New">✨ As New</option>
@@ -156,7 +156,7 @@ export const ItemForm = ({
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
                 Source *
               </label>
               <select
@@ -167,7 +167,7 @@ export const ItemForm = ({
                     source: e.target.value as Item["source"],
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
                 required
               >
                 <option value="Mine">💼 Mine</option>
@@ -179,7 +179,7 @@ export const ItemForm = ({
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
               Estimated Cost (₱)
             </label>
             <input
@@ -197,12 +197,12 @@ export const ItemForm = ({
                     : undefined,
                 })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
               placeholder={`Auto: ${estimatedCost.toFixed(2)}`}
               min="0"
               step="0.01"
             />
-            <p className="text-xs text-gray-500 mt-2 font-medium">
+            <p className="text-[10px] sm:text-xs text-gray-500 mt-1 sm:mt-2 font-medium">
               💡 Auto-calculated from bundle: ₱{estimatedCost.toFixed(2)} per
               piece
             </p>
@@ -211,7 +211,7 @@ export const ItemForm = ({
           {(formData.condition === "With Issue" ||
             formData.condition === "Reject") && (
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
                 Issue / Notes
               </label>
               <textarea
@@ -219,7 +219,7 @@ export const ItemForm = ({
                 onChange={(e) =>
                   setFormData({ ...formData, issueNotes: e.target.value })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
                 rows={3}
                 placeholder="Describe any issues..."
               />
@@ -227,7 +227,7 @@ export const ItemForm = ({
           )}
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
               Status *
             </label>
             <select
@@ -238,7 +238,7 @@ export const ItemForm = ({
                   status: e.target.value as Item["status"],
                 })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
               required
             >
               <option value="Available">🟢 Available</option>
@@ -247,9 +247,9 @@ export const ItemForm = ({
           </div>
 
           {formData.status === "Sold" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
                   Sold Price (₱) *
                 </label>
                 <input
@@ -261,7 +261,7 @@ export const ItemForm = ({
                       soldPrice: parseFloat(e.target.value) || 0,
                     })
                   }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
                   placeholder="e.g., 450"
                   min="0"
                   step="0.01"
@@ -270,7 +270,7 @@ export const ItemForm = ({
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
                   Sold Date *
                 </label>
                 <input
@@ -279,24 +279,24 @@ export const ItemForm = ({
                   onChange={(e) =>
                     setFormData({ ...formData, soldDate: e.target.value })
                   }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
                   required
                 />
               </div>
             </div>
           )}
 
-          <div className="flex gap-4 pt-4">
+          <div className="flex gap-2 sm:gap-4 pt-2 sm:pt-4">
             <button type="submit" className="flex-1 relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl transition-transform group-hover:scale-105" />
-              <div className="relative px-6 py-3 font-bold text-white">
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg sm:rounded-xl transition-transform group-hover:scale-105" />
+              <div className="relative px-4 sm:px-6 py-2 sm:py-3 font-bold text-white text-sm sm:text-base">
                 {item ? "💾 Update Item" : "🚀 Add Item"}
               </div>
             </button>
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-300 transition-all duration-300"
+              className="flex-1 bg-gray-200 text-gray-700 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold hover:bg-gray-300 transition-all duration-300 text-sm sm:text-base"
             >
               ❌ Cancel
             </button>

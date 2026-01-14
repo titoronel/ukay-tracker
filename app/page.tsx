@@ -83,50 +83,50 @@ export default function Home() {
 
       <div className="relative">
         <div className="absolute inset-0 bg-linear-to-r from-purple-600/10 to-pink-600/10 backdrop-blur-3xl" />
-        <header className="relative border-b border-white/50 bg-white/80 backdrop-blur-xl shadow-xl">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-              <div className="flex items-center gap-3">
-                <div className="text-4xl animate-bounce-slow">👔</div>
-                <div>
-                  <h1 className="text-3xl font-black bg-linear-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
-                    Ukay-Ukay Tracker
-                  </h1>
-                  <p className="text-xs text-gray-500 font-medium">
-                    Track • Manage • Profit
-                  </p>
-                </div>
+      <header className="relative border-b border-white/50 bg-white/80 backdrop-blur-xl shadow-xl">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-6">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="text-2xl sm:text-4xl animate-bounce-slow">👔</div>
+              <div>
+                <h1 className="text-xl sm:text-3xl font-black bg-linear-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
+                  Ukay-Ukay Tracker
+                </h1>
+                <p className="text-[10px] sm:text-xs text-gray-500 font-medium hidden sm:block">
+                  Track • Manage • Profit
+                </p>
               </div>
-              <nav className="flex gap-2 bg-white/50 backdrop-blur-sm p-2 rounded-2xl shadow-lg border border-white/60">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`relative px-5 py-3 rounded-xl font-bold transition-all duration-300 ${
-                      activeTab === tab.id
-                        ? "text-white shadow-lg transform scale-105"
-                        : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
-                    }`}
-                  >
-                    {activeTab === tab.id && (
-                      <div
-                        className={`absolute inset-0 bg-linear-to-r ${tab.gradient} rounded-xl`}
-                      />
-                    )}
-                    <span className="relative flex items-center gap-2">
-                      <span className="text-xl">{tab.icon}</span>
-                      <span className="hidden sm:inline">{tab.label}</span>
-                    </span>
-                  </button>
-                ))}
-              </nav>
             </div>
+            <nav className="flex gap-1 sm:gap-2 bg-white/50 backdrop-blur-sm p-1 sm:p-2 rounded-xl sm:rounded-2xl shadow-lg border border-white/60 overflow-x-auto w-full sm:w-auto">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex-1 sm:flex-none px-2 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? "text-white shadow-lg transform scale-105"
+                      : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
+                  }`}
+                >
+                  {activeTab === tab.id && (
+                    <div
+                      className={`absolute inset-0 bg-linear-to-r ${tab.gradient} rounded-lg sm:rounded-xl`}
+                    />
+                  )}
+                  <span className="relative flex items-center gap-1 sm:gap-2 justify-center">
+                    <span className="text-base sm:text-xl">{tab.icon}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </span>
+                </button>
+              ))}
+            </nav>
           </div>
-        </header>
+        </div>
+      </header>
       </div>
 
       <main className="flex-1 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-10">
           {activeTab === "dashboard" && (
             <Dashboard bundles={bundles} items={items} />
           )}
@@ -167,8 +167,8 @@ export default function Home() {
       </main>
 
       <footer className="relative mt-auto border-t border-white/50 bg-white/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-center text-sm text-gray-600">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+          <p className="text-center text-xs sm:text-sm text-gray-600">
             <span className="font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
               Ukay-Ukay Tracker
             </span>{" "}

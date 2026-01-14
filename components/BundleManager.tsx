@@ -75,22 +75,23 @@ export const BundleManager = ({
   };
 
   return (
-    <div className="space-y-8 animate-fadeIn">
-      <div className="flex justify-between items-center">
+    <div className="space-y-4 sm:space-y-8 animate-fadeIn">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-2xl sm:text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Bundle Management
           </h1>
-          <p className="text-gray-500 mt-1 font-medium">
+          <p className="text-sm sm:text-base text-gray-500 mt-1 font-medium">
             Organize your inventory into bundles
           </p>
         </div>
         {!showForm && (
-          <button onClick={() => setShowForm(true)} className="relative group">
+          <button onClick={() => setShowForm(true)} className="relative group flex-shrink-0">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl transition-transform group-hover:scale-105 group-hover:rotate-1" />
-            <div className="relative px-6 py-3 font-bold text-white flex items-center gap-2">
-              <span className="text-xl">➕</span>
-              <span>New Bundle</span>
+            <div className="relative px-4 sm:px-6 py-2 sm:py-3 font-bold text-white flex items-center gap-2 text-sm sm:text-base">
+              <span className="text-lg sm:text-xl">➕</span>
+              <span className="hidden sm:inline">New Bundle</span>
+              <span className="sm:hidden">New</span>
             </div>
           </button>
         )}
