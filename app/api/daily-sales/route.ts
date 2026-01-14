@@ -22,7 +22,11 @@ export async function GET() {
       GROUP BY ds.id
       ORDER BY ds.date DESC
     `;
-    return NextResponse.json(rows);
+    const convertedRows = rows.map(row => ({
+      ...row,
+      totalRevenue: parseFloat(row.totalRevenue)
+    }));
+    return NextResponse.json(convertedRows);
   } catch (error) {
     console.error('Error fetching daily sales:', error);
     return NextResponse.json({ error: 'Failed to fetch daily sales' }, { status: 500 });

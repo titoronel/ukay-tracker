@@ -21,7 +21,13 @@ export async function GET() {
       FROM items 
       ORDER BY created_at DESC
     `;
-    return NextResponse.json(rows);
+    const convertedRows = rows.map(row => ({
+      ...row,
+      sellingPrice: parseFloat(row.sellingPrice),
+      estimatedCost: row.estimatedCost ? parseFloat(row.estimatedCost) : null,
+      soldPrice: row.soldPrice ? parseFloat(row.soldPrice) : null
+    }));
+    return NextResponse.json(convertedRows);
   } catch (error) {
     console.error('Error fetching items:', error);
     return NextResponse.json({ error: 'Failed to fetch items' }, { status: 500 });

@@ -42,7 +42,7 @@ export const BundleForm = ({
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
               placeholder="e.g., Verde V4, Pb-05, Dimes"
               required
             />
@@ -60,7 +60,7 @@ export const BundleForm = ({
                   category: e.target.value as Bundle["category"],
                 })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
               required
             >
               <option value="Jackets">🧥 Jackets</option>
@@ -84,7 +84,7 @@ export const BundleForm = ({
                     totalCost: parseFloat(e.target.value) || 0,
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                 placeholder="e.g., 6000"
                 min="0"
                 step="0.01"
@@ -105,7 +105,7 @@ export const BundleForm = ({
                     totalPieces: parseInt(e.target.value) || 0,
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                 placeholder="e.g., 20"
                 min="1"
                 required

@@ -22,7 +22,12 @@ export async function GET() {
       FROM bundles 
       ORDER BY created_at DESC
     `;
-    return NextResponse.json(rows);
+    const convertedRows = rows.map(row => ({
+      ...row,
+      totalCost: parseFloat(row.totalCost),
+      totalPieces: parseInt(row.totalPieces)
+    }));
+    return NextResponse.json(convertedRows);
   } catch (error) {
     console.error('Error fetching bundles:', error);
     return NextResponse.json({ 

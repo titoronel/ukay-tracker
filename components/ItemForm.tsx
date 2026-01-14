@@ -64,7 +64,7 @@ export const ItemForm = ({
               onChange={(e) =>
                 setFormData({ ...formData, bundleId: e.target.value })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
               required
             >
               <option value="">Select a bundle</option>
@@ -86,7 +86,7 @@ export const ItemForm = ({
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
               placeholder="e.g., Denim Jacket, Black Hoodie"
               required
             />
@@ -106,7 +106,7 @@ export const ItemForm = ({
                     sellingPrice: parseFloat(e.target.value) || 0,
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                 placeholder="e.g., 500"
                 min="0"
                 step="0.01"
@@ -124,7 +124,7 @@ export const ItemForm = ({
                 onChange={(e) =>
                   setFormData({ ...formData, size: e.target.value })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                 placeholder="e.g., L, XL, 36"
                 required
               />
@@ -144,7 +144,7 @@ export const ItemForm = ({
                     condition: e.target.value as Item["condition"],
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                 required
               >
                 <option value="As New">✨ As New</option>
@@ -167,7 +167,7 @@ export const ItemForm = ({
                     source: e.target.value as Item["source"],
                   })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                 required
               >
                 <option value="Mine">💼 Mine</option>
@@ -197,7 +197,7 @@ export const ItemForm = ({
                     : undefined,
                 })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
               placeholder={`Auto: ${estimatedCost.toFixed(2)}`}
               min="0"
               step="0.01"
@@ -219,7 +219,7 @@ export const ItemForm = ({
                 onChange={(e) =>
                   setFormData({ ...formData, issueNotes: e.target.value })
                 }
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                 rows={3}
                 placeholder="Describe any issues..."
               />
@@ -238,7 +238,7 @@ export const ItemForm = ({
                   status: e.target.value as Item["status"],
                 })
               }
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
               required
             >
               <option value="Available">🟢 Available</option>
@@ -261,7 +261,7 @@ export const ItemForm = ({
                       soldPrice: parseFloat(e.target.value) || 0,
                     })
                   }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                   placeholder="e.g., 450"
                   min="0"
                   step="0.01"
@@ -279,7 +279,7 @@ export const ItemForm = ({
                   onChange={(e) =>
                     setFormData({ ...formData, soldDate: e.target.value })
                   }
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800"
                   required
                 />
               </div>
