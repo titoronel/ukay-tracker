@@ -3,6 +3,14 @@ import { sql } from '@vercel/postgres';
 
 export async function GET() {
   try {
+    if (!process.env.POSTGRES_URL) {
+      console.error('POSTGRES_URL environment variable is not set');
+      return NextResponse.json({ 
+        error: 'Database configuration missing',
+        details: 'POSTGRES_URL environment variable is not set' 
+      }, { status: 500 });
+    }
+    
     const { rows } = await sql`
       SELECT 
         id,
@@ -17,12 +25,23 @@ export async function GET() {
     return NextResponse.json(rows);
   } catch (error) {
     console.error('Error fetching bundles:', error);
-    return NextResponse.json({ error: 'Failed to fetch bundles' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Failed to fetch bundles',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
+    if (!process.env.POSTGRES_URL) {
+      console.error('POSTGRES_URL environment variable is not set');
+      return NextResponse.json({ 
+        error: 'Database configuration missing',
+        details: 'POSTGRES_URL environment variable is not set' 
+      }, { status: 500 });
+    }
+    
     const bundle = await request.json();
     
     const { rows } = await sql`
@@ -41,6 +60,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(rows[0]);
   } catch (error) {
     console.error('Error creating bundle:', error);
-    return NextResponse.json({ error: 'Failed to create bundle' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Failed to create bundle',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }

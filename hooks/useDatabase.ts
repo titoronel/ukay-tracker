@@ -24,8 +24,20 @@ export function useDatabase() {
         fetch('/api/daily-sales')
       ]);
 
-      if (!bundlesRes.ok || !itemsRes.ok || !salesRes.ok) {
-        throw new Error('Failed to fetch data');
+      if (!bundlesRes.ok) {
+        const errorData = await bundlesRes.json().catch(() => ({}));
+        console.error('Bundles API error:', errorData);
+        throw new Error(`Bundles error: ${errorData.details || errorData.error || 'Unknown error'}`);
+      }
+      if (!itemsRes.ok) {
+        const errorData = await itemsRes.json().catch(() => ({}));
+        console.error('Items API error:', errorData);
+        throw new Error(`Items error: ${errorData.details || errorData.error || 'Unknown error'}`);
+      }
+      if (!salesRes.ok) {
+        const errorData = await salesRes.json().catch(() => ({}));
+        console.error('Sales API error:', errorData);
+        throw new Error(`Sales error: ${errorData.details || errorData.error || 'Unknown error'}`);
       }
 
       const [bundlesData, itemsData, salesData] = await Promise.all([
@@ -38,7 +50,8 @@ export function useDatabase() {
       setItems(itemsData);
       setDailySales(salesData);
     } catch (err) {
-      setError('Failed to load data');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to load data';
+      setError(errorMessage);
       console.error('Error fetching data:', err);
     } finally {
       setIsLoading(false);
@@ -52,7 +65,11 @@ export function useDatabase() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bundle)
       });
-      if (!res.ok) throw new Error('Failed to add bundle');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        console.error('Add bundle error:', errorData);
+        throw new Error(errorData.details || errorData.error || 'Failed to add bundle');
+      }
       await fetchAll();
     } catch (err) {
       console.error('Error adding bundle:', err);

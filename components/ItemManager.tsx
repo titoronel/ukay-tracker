@@ -55,8 +55,8 @@ export const ItemManager = ({
       setShowForm(false);
       setSelectedBundle("");
     } catch (error) {
-      console.error('Error saving item:', error);
-      alert('Failed to save item');
+      console.error("Error saving item:", error);
+      alert("Failed to save item");
     }
   };
 
@@ -67,12 +67,12 @@ export const ItemManager = ({
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this item?')) {
+    if (confirm("Are you sure you want to delete this item?")) {
       try {
         await onDeleteItem(id);
       } catch (error) {
-        console.error('Error deleting item:', error);
-        alert('Failed to delete item');
+        console.error("Error deleting item:", error);
+        alert("Failed to delete item");
       }
     }
   };
@@ -81,8 +81,8 @@ export const ItemManager = ({
     try {
       await onUpdateItem(updatedItem);
     } catch (error) {
-      console.error('Error updating item:', error);
-      alert('Failed to update item');
+      console.error("Error updating item:", error);
+      alert("Failed to update item");
     }
   };
 
@@ -108,10 +108,7 @@ export const ItemManager = ({
           </p>
         </div>
         {!showForm && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="relative group overflow-hidden"
-          >
+          <button onClick={() => setShowForm(true)} className="relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl transition-transform group-hover:scale-105 group-hover:rotate-1" />
             <div className="relative px-6 py-3 font-bold text-white flex items-center gap-2">
               <span className="text-xl">➕</span>

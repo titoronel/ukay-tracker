@@ -47,7 +47,8 @@ export const BundleManager = ({
       setShowForm(false);
     } catch (error) {
       console.error('Error saving bundle:', error);
-      alert('Failed to save bundle');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to save bundle';
+      alert(`Error: ${errorMessage}`);
     }
   };
 
@@ -62,7 +63,8 @@ export const BundleManager = ({
         await onDeleteBundle(id);
       } catch (error) {
         console.error('Error deleting bundle:', error);
-        alert('Failed to delete bundle');
+        const errorMessage = error instanceof Error ? error.message : 'Failed to delete bundle';
+        alert(`Error: ${errorMessage}`);
       }
     }
   };
