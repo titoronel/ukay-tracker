@@ -9,18 +9,32 @@ export const ItemList = ({
   onEdit,
   onDelete,
   onUpdateItem,
-  limitItems = 50,
   showAvailable = true,
   showSold = true,
+  availableItems,
+  soldItems,
+  availablePage,
+  availableTotalPages,
+  soldPage,
+  soldTotalPages,
+  onAvailablePageChange,
+  onSoldPageChange,
 }: {
   items: Item[];
   bundles: Bundle[];
   onEdit: (item: Item) => void;
   onDelete: (id: string) => void;
   onUpdateItem: (item: Item) => void;
-  limitItems?: number;
   showAvailable?: boolean;
   showSold?: boolean;
+  availableItems?: Item[];
+  soldItems?: Item[];
+  availablePage?: number;
+  availableTotalPages?: number;
+  soldPage?: number;
+  soldTotalPages?: number;
+  onAvailablePageChange?: (page: number) => void;
+  onSoldPageChange?: (page: number) => void;
 }) => {
   const getBundleName = (bundleId: string) => {
     const bundle = bundles.find((b) => b.id === bundleId);
@@ -58,11 +72,10 @@ export const ItemList = ({
     }
   };
 
-  const allAvailableItems = items.filter((item) => item.status === "Available");
-  const allSoldItems = items.filter((item) => item.status === "Sold");
-
-  const availableItems = showAvailable ? allAvailableItems.slice(0, limitItems) : [];
-  const soldItems = showSold ? allSoldItems.slice(0, limitItems) : [];
+  const displayAvailableItems = availableItems ?? (showAvailable ? items.filter((item) => item.status === "Available") : []);
+  const displaySoldItems = soldItems ?? (showSold ? items.filter((item) => item.status === "Sold").sort((a, b) =>
+    (b.soldDate || "").localeCompare(a.soldDate || "")
+  ) : []);
 
   return (
     <div className="space-y-4 sm:space-y-8">
@@ -73,13 +86,13 @@ export const ItemList = ({
           <h2 className="text-lg sm:text-2xl font-black mb-3 sm:mb-6 flex items-center gap-2 sm:gap-3">
             <span className="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-pulse" />
             <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-              Available Items ({availableItems.length})
+              Available Items ({displayAvailableItems.length})
             </span>
           </h2>
 
-          {availableItems.length > 0 ? (
+          {displayAvailableItems.length > 0 ? (
             <div className="grid grid-cols-1 gap-2 sm:gap-4 md:grid-cols-2">
-              {availableItems.map((item) => (
+              {displayAvailableItems.map((item) => (
                 <div
                   key={item.id}
                   className="group relative"
@@ -159,6 +172,29 @@ export const ItemList = ({
               <p className="text-sm sm:text-base text-gray-500 font-medium">No available items</p>
             </div>
           )}
+          {showAvailable && availableTotalPages && availableTotalPages > 1 && onAvailablePageChange && (
+            <div className="mt-4">
+              <div className="flex items-center justify-center gap-1 sm:gap-2">
+                <button
+                  onClick={() => onAvailablePageChange(Math.max(1, (availablePage || 1) - 1))}
+                  disabled={(availablePage || 1) === 1}
+                  className="px-3 py-2 bg-green-100 text-green-700 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-200 transition-colors text-sm sm:text-base"
+                >
+                  ←
+                </button>
+                <span className="text-sm sm:text-base font-bold text-gray-700">
+                  Page {availablePage || 1} of {availableTotalPages}
+                </span>
+                <button
+                  onClick={() => onAvailablePageChange(Math.min(availableTotalPages, (availablePage || 1) + 1))}
+                  disabled={(availablePage || 1) === availableTotalPages}
+                  className="px-3 py-2 bg-green-100 text-green-700 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-200 transition-colors text-sm sm:text-base"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -169,17 +205,13 @@ export const ItemList = ({
           <h2 className="text-lg sm:text-2xl font-black mb-3 sm:mb-6 flex items-center gap-2 sm:gap-3">
             <span className="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-red-400 to-pink-500 rounded-full" />
             <span className="bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
-              Sold Items ({soldItems.length})
+              Sold Items ({displaySoldItems.length})
             </span>
           </h2>
 
-          {soldItems.length > 0 ? (
+          {displaySoldItems.length > 0 ? (
             <div className="grid grid-cols-1 gap-2 sm:gap-4 md:grid-cols-2">
-              {soldItems
-                .sort((a, b) =>
-                  (b.soldDate || "").localeCompare(a.soldDate || "")
-                )
-                .map((item) => (
+              {displaySoldItems.map((item) => (
                   <div
                     key={item.id}
                     className="group relative"
@@ -255,6 +287,29 @@ export const ItemList = ({
             <div className="text-center py-6 sm:py-8">
               <div className="text-4xl sm:text-5xl mb-2 sm:mb-3">💤</div>
               <p className="text-sm sm:text-base text-gray-500 font-medium">No sold items yet</p>
+            </div>
+          )}
+          {showSold && soldTotalPages && soldTotalPages > 1 && onSoldPageChange && (
+            <div className="mt-4">
+              <div className="flex items-center justify-center gap-1 sm:gap-2">
+                <button
+                  onClick={() => onSoldPageChange(Math.max(1, (soldPage || 1) - 1))}
+                  disabled={(soldPage || 1) === 1}
+                  className="px-3 py-2 bg-red-100 text-red-700 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-200 transition-colors text-sm sm:text-base"
+                >
+                  ←
+                </button>
+                <span className="text-sm sm:text-base font-bold text-gray-700">
+                  Page {soldPage || 1} of {soldTotalPages}
+                </span>
+                <button
+                  onClick={() => onSoldPageChange(Math.min(soldTotalPages, (soldPage || 1) + 1))}
+                  disabled={(soldPage || 1) === soldTotalPages}
+                  className="px-3 py-2 bg-red-100 text-red-700 rounded-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-red-200 transition-colors text-sm sm:text-base"
+                >
+                  →
+                </button>
+              </div>
             </div>
           )}
         </div>

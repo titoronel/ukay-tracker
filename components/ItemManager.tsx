@@ -24,9 +24,11 @@ export const ItemManager = ({
   const [showForm, setShowForm] = useState(false);
   const [editingItem, setEditingItem] = useState<Item | null>(null);
   const [selectedBundle, setSelectedBundle] = useState<string>("");
-  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [showAvailable, setShowAvailable] = useState(true);
   const [showSold, setShowSold] = useState(true);
+  const [availablePage, setAvailablePage] = useState(1);
+  const [soldPage, setSoldPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
 
   const handleSubmit = async (
     itemData: Omit<Item, "id" | "createdAt" | "soldDate"> & {
@@ -99,11 +101,24 @@ export const ItemManager = ({
     ? items.filter((item) => item.bundleId === selectedBundle)
     : items;
 
-  const availableItems = filteredItems.filter((item) => item.status === "Available");
-  const soldItems = filteredItems.filter((item) => item.status === "Sold");
+  const allAvailableItems = filteredItems.filter((item) => item.status === "Available");
+  const allSoldItems = filteredItems.filter((item) => item.status === "Sold");
 
-  const canLoadMoreAvailable = showAvailable && availableItems.length > itemsPerPage;
-  const canLoadMoreSold = showSold && soldItems.length > itemsPerPage;
+  const availableItemsCount = allAvailableItems.length;
+  const soldItemsCount = allSoldItems.length;
+
+  const availableTotalPages = Math.ceil(availableItemsCount / ITEMS_PER_PAGE);
+  const soldTotalPages = Math.ceil(soldItemsCount / ITEMS_PER_PAGE);
+
+  const paginatedAvailableItems = allAvailableItems.slice(
+    (availablePage - 1) * ITEMS_PER_PAGE,
+    availablePage * ITEMS_PER_PAGE
+  );
+
+  const paginatedSoldItems = allSoldItems.slice(
+    (soldPage - 1) * ITEMS_PER_PAGE,
+    soldPage * ITEMS_PER_PAGE
+  );
 
   return (
     <div className="space-y-4 sm:space-y-8 animate-fadeIn">
@@ -137,7 +152,11 @@ export const ItemManager = ({
             </label>
             <select
               value={selectedBundle}
-              onChange={(e) => setSelectedBundle(e.target.value)}
+              onChange={(e) => {
+                setSelectedBundle(e.target.value);
+                setAvailablePage(1);
+                setSoldPage(1);
+              }}
               className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm font-medium text-sm sm:text-base"
             >
               <option value="">All Bundles</option>
@@ -151,7 +170,7 @@ export const ItemManager = ({
         </div>
       )}
 
-      {!showForm && !selectedBundle && (
+      {!showForm && (
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl sm:rounded-2xl blur-xl" />
           <div className="relative bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-6 border border-white/50">
@@ -163,22 +182,28 @@ export const ItemManager = ({
                 <input
                   type="checkbox"
                   checked={showAvailable}
-                  onChange={(e) => setShowAvailable(e.target.checked)}
+                  onChange={(e) => {
+                    setShowAvailable(e.target.checked);
+                    setAvailablePage(1);
+                  }}
                   className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
                 />
                 <span className="text-sm sm:text-base font-medium text-gray-700">
-                  Available ({availableItems.length})
+                  Available ({availableItemsCount})
                 </span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={showSold}
-                  onChange={(e) => setShowSold(e.target.checked)}
+                  onChange={(e) => {
+                    setShowSold(e.target.checked);
+                    setSoldPage(1);
+                  }}
                   className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 border-gray-300 rounded focus:ring-red-500"
                 />
                 <span className="text-sm sm:text-base font-medium text-gray-700">
-                  Sold ({soldItems.length})
+                  Sold ({soldItemsCount})
                 </span>
               </label>
             </div>
@@ -201,23 +226,17 @@ export const ItemManager = ({
             onEdit={handleEdit}
             onDelete={handleDelete}
             onUpdateItem={handleUpdateItem}
-            limitItems={itemsPerPage}
             showAvailable={showAvailable}
             showSold={showSold}
+            availableItems={paginatedAvailableItems}
+            soldItems={paginatedSoldItems}
+            availablePage={availablePage}
+            availableTotalPages={availableTotalPages}
+            soldPage={soldPage}
+            soldTotalPages={soldTotalPages}
+            onAvailablePageChange={(page) => setAvailablePage(Math.max(1, Math.min(availableTotalPages, page)))}
+            onSoldPageChange={(page) => setSoldPage(Math.max(1, Math.min(soldTotalPages, page)))}
           />
-          {(canLoadMoreAvailable || canLoadMoreSold) && (
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-xl sm:rounded-2xl blur-xl" />
-              <div className="relative bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 border border-white/50 text-center">
-                <button
-                  onClick={() => setItemsPerPage((prev) => prev + 10)}
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                >
-                  Load More Items
-                </button>
-              </div>
-            </div>
-          )}
         </>
       )}
     </div>
