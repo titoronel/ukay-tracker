@@ -28,14 +28,22 @@ export const Dashboard = ({
   bundles.forEach((bundle) => {
     const stats = calculateBundleStats(bundle, items);
     bundleStatsMap.set(bundle.id, stats);
+  });
 
-    todayItems.forEach((item) => {
-      if (item.bundleId === bundle.id && stats.isBreakeven) {
+  todayItems.forEach((item) => {
+    const bundle = bundles.find(b => b.id === item.bundleId);
+    if (bundle) {
+      const stats = bundleStatsMap.get(bundle.id);
+      if (stats?.isBreakeven) {
+        // If bundle is breakeven, all sales are pure profit
+        todayProfit += (item.soldPrice || 0);
+      } else {
+        // If not breakeven yet, deduct cost per item
         const costPerItem = bundle.totalCost / bundle.totalPieces;
         const profitFromItem = (item.soldPrice || 0) - costPerItem;
-        if (profitFromItem > 0) todayProfit += profitFromItem;
+        todayProfit += profitFromItem;
       }
-    });
+    }
   });
 
   const activeBundles = bundles.length;

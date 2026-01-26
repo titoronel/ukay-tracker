@@ -28,7 +28,7 @@ export const DailySales = ({
     return bundle?.name || "Unknown Bundle";
   };
 
-  const getDailyStats = (date: string) => {
+const getDailyStats = (date: string) => {
     const daySales = items.filter(
       (item) => item.status === "Sold" && item.soldDate === date
     );
@@ -49,36 +49,28 @@ export const DailySales = ({
           count: current.count + 1,
         });
 
-        const allSoldItems = items.filter(
+        // Calculate breakeven status AS OF the selected date
+        const allSoldItemsAsOfDate = items.filter(
           (i) =>
             i.bundleId === bundle.id &&
             i.status === "Sold" &&
             i.soldDate &&
             i.soldDate <= date
         );
-        const totalRevenue = allSoldItems.reduce(
+        const totalRevenueAsOfDate = allSoldItemsAsOfDate.reduce(
           (sum, i) => sum + (i.soldPrice || 0),
           0
         );
+        const isBreakevenAsOfDate = totalRevenueAsOfDate >= bundle.totalCost;
+        
+        const costPerItem = bundle.totalCost / bundle.totalPieces;
 
-        if (totalRevenue > bundle.totalCost) {
-          const costPerItem = bundle.totalCost / bundle.totalPieces;
-          const itemsBeforeBreakeven = allSoldItems.filter(
-            (i) => i.soldDate && i.soldDate < date
-          );
-          const revenueBefore = itemsBeforeBreakeven.reduce(
-            (sum, i) => sum + (i.soldPrice || 0),
-            0
-          );
-
-          if (revenueBefore >= bundle.totalCost) {
-            profit += (item.soldPrice || 0) - costPerItem;
-          } else {
-            const remainingCost = bundle.totalCost - revenueBefore;
-            if ((item.soldPrice || 0) > remainingCost) {
-              profit += (item.soldPrice || 0) - remainingCost;
-            }
-          }
+        if (isBreakevenAsOfDate) {
+          // If bundle was breakeven as of this date, this sale is pure profit
+          profit += (item.soldPrice || 0);
+        } else {
+          // If not breakeven yet as of this date, deduct cost per item
+          profit += (item.soldPrice || 0) - costPerItem;
         }
       }
     });

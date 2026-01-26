@@ -72,15 +72,16 @@ export const ItemList = ({
     }
   };
 
-  const displayAvailableItems = availableItems ?? (showAvailable ? items.filter((item) => item.status === "Available") : []);
-  const displaySoldItems = soldItems ?? (showSold ? items.filter((item) => item.status === "Sold").sort((a, b) =>
+  const displayAvailableItems = showAvailable ? (availableItems ?? items.filter((item) => item.status === "Available")) : [];
+  const displaySoldItems = showSold ? (soldItems ?? items.filter((item) => item.status === "Sold").sort((a, b) =>
     (b.soldDate || "").localeCompare(a.soldDate || "")
-  ) : []);
+  )) : [];
 
   return (
     <div className="space-y-4 sm:space-y-8">
       {/* Available Items */}
-      <div className="relative">
+      {showAvailable && (
+        <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl sm:rounded-3xl blur-2xl" />
         <div className="relative bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 border border-white/50">
           <h2 className="text-lg sm:text-2xl font-black mb-3 sm:mb-6 flex items-center gap-2 sm:gap-3">
@@ -197,9 +198,11 @@ export const ItemList = ({
           )}
         </div>
       </div>
+      )}
 
       {/* Sold Items */}
-      <div className="relative">
+      {showSold && (
+        <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-2xl sm:rounded-3xl blur-2xl" />
         <div className="relative bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 border border-white/50">
           <h2 className="text-lg sm:text-2xl font-black mb-3 sm:mb-6 flex items-center gap-2 sm:gap-3">
@@ -314,6 +317,7 @@ export const ItemList = ({
           )}
         </div>
       </div>
+      )}
 
       {items.length === 0 && (
         <div className="relative">
