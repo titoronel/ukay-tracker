@@ -3,6 +3,8 @@ import { sql } from '@vercel/postgres';
 
 export async function GET() {
   try {
+    await sql`ALTER TABLE items ADD COLUMN IF NOT EXISTS sold_notes TEXT`;
+
     const { rows } = await sql`
       SELECT 
         id,
@@ -17,6 +19,7 @@ export async function GET() {
         status,
         sold_date as "soldDate",
         sold_price as "soldPrice",
+        sold_notes as "soldNotes",
         created_at as "createdAt"
       FROM items 
       ORDER BY created_at DESC
@@ -36,13 +39,14 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    await sql`ALTER TABLE items ADD COLUMN IF NOT EXISTS sold_notes TEXT`;
     const item = await request.json();
     
     const { rows } = await sql`
       INSERT INTO items (
         id, bundle_id, name, selling_price, estimated_cost, 
         size, condition, issue_notes, source, status, 
-        sold_date, sold_price, created_at
+        sold_date, sold_price, sold_notes, created_at
       )
       VALUES (
         ${item.id},
@@ -57,6 +61,7 @@ export async function POST(request: NextRequest) {
         ${item.status},
         ${item.soldDate},
         ${item.soldPrice},
+        ${item.soldNotes || null},
         ${item.createdAt}
       )
       RETURNING *

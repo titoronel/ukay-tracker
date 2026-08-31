@@ -8,6 +8,8 @@ export async function PUT(
   try {
     const { id } = await params;
     const item = await request.json();
+
+    await sql`ALTER TABLE items ADD COLUMN IF NOT EXISTS sold_notes TEXT`;
     
     const { rows } = await sql`
       UPDATE items
@@ -21,7 +23,8 @@ export async function PUT(
         source = ${item.source},
         status = ${item.status},
         sold_date = ${item.soldDate},
-        sold_price = ${item.soldPrice}
+        sold_price = ${item.soldPrice},
+        sold_notes = ${item.soldNotes || null}
       WHERE id = ${id}
       RETURNING *
     `;

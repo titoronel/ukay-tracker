@@ -20,6 +20,7 @@ export interface Item {
   status: 'Available' | 'Sold';
   soldDate?: string;
   soldPrice?: number;
+  soldNotes?: string;
   createdAt: string;
 }
 

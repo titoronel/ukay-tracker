@@ -24,112 +24,85 @@ export const BundleForm = ({
     onSubmit(formData);
   };
 
+  const inputClass = "w-full px-3 py-2.5 bg-card border border-border rounded-lg text-base sm:text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all duration-150";
+
   return (
-    <div className="relative animate-fadeIn">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl sm:rounded-3xl blur-2xl" />
-      <div className="relative bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 border border-white/50">
-        <h2 className="text-xl sm:text-3xl font-black mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          {bundle ? "✏️ Edit Bundle" : "✨ Create New Bundle"}
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+    <div className="bg-card border border-border rounded-xl p-5 sm:p-6 animate-fadeIn">
+      <h2 className="text-lg font-semibold text-foreground mb-4">
+        {bundle ? "Edit Bundle" : "New Bundle"}
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-xs font-medium text-muted-foreground mb-1.5">Name</label>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            className={inputClass}
+            placeholder="e.g., Verde V4"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-muted-foreground mb-1.5">Category</label>
+          <select
+            value={formData.category}
+            onChange={(e) => setFormData({ ...formData, category: e.target.value as Bundle["category"] })}
+            className={inputClass}
+            required
+          >
+            <option value="Jackets">Jackets</option>
+            <option value="Hoodies">Hoodies</option>
+            <option value="T-Shirts">T-Shirts</option>
+            <option value="Mixed">Mixed</option>
+          </select>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
-              Bundle Name
-            </label>
+            <label className="block text-xs font-medium text-muted-foreground mb-1.5">Total Cost (₱)</label>
             <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
-              placeholder="e.g., Verde V4, Pb-05, Dimes"
+              type="number"
+              value={formData.totalCost || ""}
+              onChange={(e) => setFormData({ ...formData, totalCost: parseFloat(e.target.value) || 0 })}
+              className={inputClass}
+              placeholder="0"
+              min="0"
+              step="0.01"
               required
             />
           </div>
-
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
-              Category
-            </label>
-            <select
-              value={formData.category}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  category: e.target.value as Bundle["category"],
-                })
-              }
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
+            <label className="block text-xs font-medium text-muted-foreground mb-1.5">Total Pieces</label>
+            <input
+              type="number"
+              value={formData.totalPieces || ""}
+              onChange={(e) => setFormData({ ...formData, totalPieces: parseInt(e.target.value) || 0 })}
+              className={inputClass}
+              placeholder="0"
+              min="1"
               required
-            >
-              <option value="Jackets">🧥 Jackets</option>
-              <option value="Hoodies">👕 Hoodies</option>
-              <option value="T-Shirts">👔 T-Shirts</option>
-              <option value="Mixed">🎨 Mixed</option>
-            </select>
+            />
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-            <div>
-              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
-                Total Bundle Cost (₱)
-              </label>
-              <input
-                type="number"
-                value={formData.totalCost || ""}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    totalCost: parseFloat(e.target.value) || 0,
-                  })
-                }
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
-                placeholder="e.g., 6000"
-                min="0"
-                step="0.01"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">
-                Total Pieces
-              </label>
-              <input
-                type="number"
-                value={formData.totalPieces || ""}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    totalPieces: parseInt(e.target.value) || 0,
-                  })
-                }
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-purple-500/50 focus:border-purple-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-gray-800 text-sm sm:text-base"
-                placeholder="e.g., 20"
-                min="1"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="flex gap-2 sm:gap-4 pt-2 sm:pt-4">
-            <button type="submit" className="flex-1 relative group ">
-              <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-purple-600 rounded-lg sm:rounded-xl transition-transform group-hover:scale-105" />
-              <div className="relative px-4 sm:px-6 py-2 sm:py-3 font-bold text-white text-sm sm:text-base">
-                {bundle ? "💾 Update Bundle" : "🚀 Create Bundle"}
-              </div>
-            </button>
-            <button
-              type="button"
-              onClick={onCancel}
-              className="flex-1 bg-gray-200 text-gray-700 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold hover:bg-gray-300 transition-all duration-300 text-sm sm:text-base"
-            >
-              ❌ Cancel
-            </button>
-          </div>
-        </form>
-      </div>
+        <div className="flex gap-3 pt-2">
+          <button
+            type="submit"
+            className="flex-1 px-4 py-2 bg-accent text-white text-sm font-medium rounded-lg hover:bg-accent/90 transition-colors duration-150"
+          >
+            {bundle ? "Save Changes" : "Create Bundle"}
+          </button>
+          <button
+            type="button"
+            onClick={onCancel}
+            className="flex-1 px-4 py-2 bg-muted text-muted-foreground text-sm font-medium rounded-lg hover:bg-muted/80 transition-colors duration-150"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

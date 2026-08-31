@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { ToastProvider } from "@/components/ui/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,17 +20,26 @@ export const metadata: Metadata = {
     "Bundle-based inventory and profit tracker for ukay-ukay (thrift) business",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider>
+          {children}
+          <ToastProvider />
+        </ThemeProvider>
       </body>
     </html>
   );

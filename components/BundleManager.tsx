@@ -5,6 +5,8 @@ import { Bundle, Item } from "@/types";
 import { generateId } from "@/lib/utils";
 import { BundleList } from "./BundleList";
 import { BundleForm } from "./BundleForm";
+import { Plus } from "lucide-react";
+import { toast } from "sonner";
 
 export const BundleManager = ({
   bundles,
@@ -36,6 +38,7 @@ export const BundleManager = ({
         const updatedBundle = { ...editingBundle, ...bundleData };
         await onUpdateBundle(updatedBundle);
         setEditingBundle(null);
+        toast.success("Bundle updated");
       } else {
         const newBundle = {
           ...bundleData,
@@ -43,12 +46,12 @@ export const BundleManager = ({
           createdAt: new Date().toISOString(),
         };
         await onAddBundle(newBundle);
+        toast.success("Bundle created");
       }
       setShowForm(false);
     } catch (error) {
-      console.error('Error saving bundle:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to save bundle';
-      alert(`Error: ${errorMessage}`);
+      const msg = error instanceof Error ? error.message : "Failed to save bundle";
+      toast.error(msg);
     }
   };
 
@@ -58,15 +61,22 @@ export const BundleManager = ({
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('This will also delete all items in this bundle. Continue?')) {
-      try {
-        await onDeleteBundle(id);
-      } catch (error) {
-        console.error('Error deleting bundle:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Failed to delete bundle';
-        alert(`Error: ${errorMessage}`);
-      }
-    }
+    toast.warning("Delete this bundle?", {
+      description: "All items in this bundle will also be deleted.",
+      action: {
+        label: "Delete",
+        onClick: async () => {
+          try {
+            await onDeleteBundle(id);
+            toast.success("Bundle deleted");
+          } catch (error) {
+            const msg = error instanceof Error ? error.message : "Failed to delete bundle";
+            toast.error(msg);
+          }
+        },
+      },
+      cancel: { label: "Cancel", onClick: () => {} },
+    });
   };
 
   const handleCancel = () => {
@@ -75,24 +85,19 @@ export const BundleManager = ({
   };
 
   return (
-    <div className="space-y-4 sm:space-y-8 animate-fadeIn">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+    <div className="animate-fadeIn">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl sm:text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Bundle Management
-          </h1>
-          <p className="text-sm sm:text-base text-gray-500 mt-1 font-medium">
-            Organize your inventory into bundles
-          </p>
+          <h1 className="text-xl sm:text-2xl font-semibold text-foreground">Bundles</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Manage your inventory bundles</p>
         </div>
         {!showForm && (
-          <button onClick={() => setShowForm(true)} className="relative group flex-shrink-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl transition-transform group-hover:scale-105 group-hover:rotate-1" />
-            <div className="relative px-4 sm:px-6 py-2 sm:py-3 font-bold text-white flex items-center gap-2 text-sm sm:text-base">
-              <span className="text-lg sm:text-xl">➕</span>
-              <span className="hidden sm:inline">New Bundle</span>
-              <span className="sm:hidden">New</span>
-            </div>
+          <button
+            onClick={() => setShowForm(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white text-sm font-medium rounded-lg hover:bg-accent/90 transition-colors duration-150"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="hidden sm:inline">New Bundle</span>
           </button>
         )}
       </div>
@@ -109,6 +114,7 @@ export const BundleManager = ({
           items={items}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onCreate={() => setShowForm(true)}
         />
       )}
     </div>

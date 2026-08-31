@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS items (
   status TEXT NOT NULL CHECK (status IN ('Available', 'Sold')),
   sold_date TEXT,
   sold_price DECIMAL(10,2),
+  sold_notes TEXT,
   created_at TEXT NOT NULL
 );
 

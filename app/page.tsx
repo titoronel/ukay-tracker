@@ -6,173 +6,144 @@ import { Dashboard } from "@/components/Dashboard";
 import { BundleManager } from "@/components/BundleManager";
 import { ItemManager } from "@/components/ItemManager";
 import { DailySales } from "@/components/DailySales";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { DashboardSkeleton } from "@/components/ui/Skeleton";
+import { Button } from "@/components/ui/Button";
+import { LayoutDashboard, Package, Shirt, DollarSign, AlertCircle } from "lucide-react";
 
 export default function Home() {
-  const { bundles, items, dailySales, addBundle, updateBundle, deleteBundle, addItem, updateItem, deleteItem, addDailySale, deleteDailySale, refresh } = useDatabase();
+  const { bundles, items, dailySales, addBundle, updateBundle, deleteBundle, addItem, updateItem, deleteItem, addDailySale, deleteDailySale, refresh, isLoading, error } = useDatabase();
   const [activeTab, setActiveTab] = useState<
     "dashboard" | "bundles" | "items" | "sales"
   >("dashboard");
 
   const tabs = [
-    {
-      id: "dashboard" as const,
-      label: "Dashboard",
-      icon: "📊",
-      gradient: "from-purple-500 to-pink-500",
-    },
-    {
-      id: "bundles" as const,
-      label: "Bundles",
-      icon: "📦",
-      gradient: "from-blue-500 to-cyan-500",
-    },
-    {
-      id: "items" as const,
-      label: "Items",
-      icon: "👕",
-      gradient: "from-emerald-500 to-teal-500",
-    },
-    {
-      id: "sales" as const,
-      label: "Sales",
-      icon: "💰",
-      gradient: "from-amber-500 to-orange-500",
-    },
+    { id: "dashboard" as const, label: "Dashboard", icon: LayoutDashboard },
+    { id: "bundles" as const, label: "Bundles", icon: Package },
+    { id: "items" as const, label: "Items", icon: Shirt },
+    { id: "sales" as const, label: "Sales", icon: DollarSign },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 flex flex-col">
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        @keyframes bounce-slow {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.6s ease-out;
-        }
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 3s infinite;
-        }
-      `}</style>
-
-      <div className="relative">
-        <div className="absolute inset-0 bg-linear-to-r from-purple-600/10 to-pink-600/10 backdrop-blur-3xl" />
-      <header className="relative border-b border-white/50 bg-white/80 backdrop-blur-xl shadow-xl">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-6">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="text-2xl sm:text-4xl animate-bounce-slow">👔</div>
-              <div>
-                <h1 className="text-xl sm:text-3xl font-black bg-linear-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
-                  Ukay-Ukay Tracker
-                </h1>
-                <p className="text-[10px] sm:text-xs text-gray-500 font-medium hidden sm:block">
-                  Track • Manage • Profit
-                </p>
+    <div className="min-h-screen bg-background flex flex-col">
+      <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
+                <Shirt className="w-4 h-4 text-white" />
               </div>
+              <span className="text-base sm:text-lg font-semibold text-foreground">
+                Ukay Tracker
+              </span>
             </div>
-            <nav className="flex gap-1 sm:gap-2 bg-white/50 backdrop-blur-sm p-1 sm:p-2 rounded-xl sm:rounded-2xl shadow-lg border border-white/60 overflow-x-auto w-full sm:w-auto">
-              {tabs.map((tab) => (
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <nav className="hidden sm:flex items-center gap-0.5">
+                {tabs.map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-150 ${
+                        activeTab === tab.id
+                          ? "bg-accent/10 text-accent"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div className="sm:hidden border-t border-border">
+          <nav className="flex overflow-x-auto">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`relative flex-1 sm:flex-none px-2 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold transition-all duration-300 ${
+                  className={`flex-1 flex flex-col items-center gap-1 py-2.5 text-xs font-medium transition-colors duration-150 border-b-2 ${
                     activeTab === tab.id
-                      ? "text-white shadow-lg transform scale-105"
-                      : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
+                      ? "border-accent text-accent"
+                      : "border-transparent text-muted-foreground"
                   }`}
                 >
-                  {activeTab === tab.id && (
-                    <div
-                      className={`absolute inset-0 bg-linear-to-r ${tab.gradient} rounded-lg sm:rounded-xl`}
-                    />
-                  )}
-                  <span className="relative flex items-center gap-1 sm:gap-2 justify-center">
-                    <span className="text-base sm:text-xl">{tab.icon}</span>
-                    <span className="hidden sm:inline">{tab.label}</span>
-                  </span>
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
                 </button>
-              ))}
-            </nav>
-          </div>
+              );
+            })}
+          </nav>
         </div>
       </header>
-      </div>
 
       <main className="flex-1 w-full">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-10">
-          {activeTab === "dashboard" && (
-            <Dashboard bundles={bundles} items={items} />
-          )}
-          {activeTab === "bundles" && (
-            <BundleManager
-              bundles={bundles}
-              items={items}
-              onAddBundle={addBundle}
-              onUpdateBundle={updateBundle}
-              onDeleteBundle={deleteBundle}
-              onAddItem={addItem}
-              onUpdateItem={updateItem}
-              onDeleteItem={deleteItem}
-              refresh={refresh}
-            />
-          )}
-          {activeTab === "items" && (
-            <ItemManager 
-              bundles={bundles} 
-              items={items} 
-              onAddItem={addItem}
-              onUpdateItem={updateItem}
-              onDeleteItem={deleteItem}
-              refresh={refresh}
-            />
-          )}
-          {activeTab === "sales" && (
-            <DailySales 
-              items={items} 
-              bundles={bundles}
-              dailySales={dailySales}
-              onAddSale={addDailySale}
-              onDeleteSale={deleteDailySale}
-              refresh={refresh}
-            />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          {isLoading ? (
+            <DashboardSkeleton />
+          ) : error ? (
+            <div className="bg-card border border-danger/20 rounded-xl p-10 text-center animate-fadeIn">
+              <AlertCircle className="w-10 h-10 text-danger mx-auto mb-3" />
+              <p className="text-sm font-medium text-foreground">Couldn&apos;t load your inventory</p>
+              <p className="text-xs text-muted-foreground mt-1.5 max-w-md mx-auto">{error}</p>
+              <Button variant="outline" className="mt-5" onClick={() => refresh()}>
+                Try again
+              </Button>
+            </div>
+          ) : (
+            <>
+              {activeTab === "dashboard" && (
+                <Dashboard bundles={bundles} items={items} />
+              )}
+              {activeTab === "bundles" && (
+                <BundleManager
+                  bundles={bundles}
+                  items={items}
+                  onAddBundle={addBundle}
+                  onUpdateBundle={updateBundle}
+                  onDeleteBundle={deleteBundle}
+                  onAddItem={addItem}
+                  onUpdateItem={updateItem}
+                  onDeleteItem={deleteItem}
+                  refresh={refresh}
+                />
+              )}
+              {activeTab === "items" && (
+                <ItemManager
+                  bundles={bundles}
+                  items={items}
+                  onAddItem={addItem}
+                  onUpdateItem={updateItem}
+                  onDeleteItem={deleteItem}
+                  refresh={refresh}
+                />
+              )}
+              {activeTab === "sales" && (
+                <DailySales
+                  items={items}
+                  bundles={bundles}
+                  dailySales={dailySales}
+                  onAddSale={addDailySale}
+                  onDeleteSale={deleteDailySale}
+                  refresh={refresh}
+                />
+              )}
+            </>
           )}
         </div>
       </main>
 
-      <footer className="relative mt-auto border-t border-white/50 bg-white/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
-          <p className="text-center text-xs sm:text-sm text-gray-600">
-            <span className="font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Ukay-Ukay Tracker
-            </span>{" "}
-            • Powered by Next.js & Tailwind CSS ✨
+      <footer className="border-t border-border bg-card">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <p className="text-center text-xs text-muted-foreground">
+            Ukay Tracker · Built with Next.js & Tailwind CSS
           </p>
         </div>
       </footer>
